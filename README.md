@@ -1,6 +1,6 @@
-# LaborEdge v3 - Zapier Integration
+# LaborEdge v3
 
-A Zapier integration for LaborEdge, providing automated workflows for healthcare recruitment processes.
+A Node.js application for LaborEdge's Zapier integration, providing automated workflows for healthcare recruitment processes.
 
 ## Features
 
@@ -28,6 +28,15 @@ A Zapier integration for LaborEdge, providing automated workflows for healthcare
 ### Search or Create
 - Find or Create Candidate
 
+## Project Structure
+
+```
+LaborEdgev3/
+├── creates/           # Creation operations
+├── triggers/          # Trigger operations
+└── test/             # Test files
+```
+
 ## Development Setup
 
 1. Install dependencies:
@@ -35,68 +44,24 @@ A Zapier integration for LaborEdge, providing automated workflows for healthcare
 npm install
 ```
 
-2. Install Zapier CLI (if not already installed):
-```bash
-npm install -g zapier-platform-cli
-```
-
-3. Login to Zapier:
-```bash
-zapier login
-```
-
-4. Test the integration:
-```bash
-npm test
-```
-
-## Deployment
-
-To deploy to Zapier:
-
-```bash
-zapier push
-```
-
-To validate your integration:
-
-```bash
-zapier validate
-```
+2. Configure environment variables:
+- Create `.env` file in the root directory
+- Required variables:
+  - `LABOR_EDGE_API_KEY` - Your LaborEdge API key
+  - `LABOR_EDGE_API_URL` - LaborEdge API URL
 
 ## Testing
 
-The integration includes tests for each component. Run tests with:
-
+Run tests with:
 ```bash
 npm test
 ```
 
-## Environment Variables
+## Environment Requirements
 
-The following environment variables are required:
-
-- `LABOR_EDGE_API_KEY` - Your LaborEdge API key
-- `LABOR_EDGE_API_URL` - LaborEdge API URL
-
-## Local Development
-
-1. Create a `.env` file in the root directory
-2. Add your environment variables
-3. Use `zapier test` to run individual tests
-
-## Contributing
-
-1. Create a feature branch
-2. Make your changes
-3. Run tests
-4. Submit a pull request
-
-## Zapier Version Support
-
-This integration requires:
+This project requires:
 - Node.js >= v16
-- Zapier Platform Core: 14.0.1
+- NPM >= 8.0.0
 
 ## License
 
