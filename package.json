@@ -1,0 +1,26 @@
+{
+  "name": "labor-edge",
+  "version": "1.0.1",
+  "description": "As a healthcare technology provider, we empower your team with innovative tools and interfaces to streamline your communication and workflows with hospitals. Freed from cumbersome systems and rote tasks, your team has more time and energy to deliver creative solutions.",
+  "main": "index.js",
+  "scripts": {
+    "test": "mocha --recursive -t 10000"
+  },
+  "engines": {
+    "node": ">=v16",
+    "npm": ">=5.6.0"
+  },
+  "dependencies": {
+    "zapier-platform-core": "14.0.1",
+    "form-data": "2.1.4",
+"request": "2.81.0"
+  },
+  "devDependencies": {
+    "mocha": "^5.2.0",
+    "should": "^13.2.0"
+  },
+  "private": true,
+  "zapier": {
+    "convertedByCLIVersion": "14.0.1"
+  }
+}

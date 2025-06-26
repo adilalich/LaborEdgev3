@@ -1,0 +1,39 @@
+const perform = async (z, bundle) => {
+    const options = {
+      url: 'https://api-nexus.laboredge.com:9000/api/api-integration/v1/master/journalnotetypes',
+      method: 'GET',
+      headers: {
+        Accept: 'application/json',
+        Authorization: `Bearer ${bundle.authData.access_token}`,
+      },
+      params: {},
+    };
+  
+    return z.request(options).then((response) => {
+      response.throwForStatus();
+      const data = response.json;
+      const renamedData = data.map(({ value, ...rest }) => ({
+        id: value,
+        ...rest,
+      }));
+  
+      return renamedData;
+    });
+  };
+  
+  module.exports = {
+    operation: {
+      perform: perform,
+      canPaginate: true,
+      sample: { id: 108, label: 'Housing preference' },
+      outputFields: [{ key: 'id', type: 'integer' }, { key: 'label' }],
+    },
+    display: {
+      description: 'List Journal Note Types which will be used in dynamic dropdown',
+      hidden: true,
+      label: 'List Journal Note Types',
+    },
+    key: 'list_journalTypes',
+    noun: 'Journal',
+  };
+  
