@@ -1,4 +1,4 @@
-name: Node.js CI
+name: Zapier Integration CI
 
 on:
   push:
@@ -7,21 +7,61 @@ on:
     branches: [ main ]
 
 jobs:
-  build:
+  test:
     runs-on: ubuntu-latest
 
     strategy:
       matrix:
-        node-version: [16.x]  # Limiting to Node 16 as per package.json requirements
+        node-version: [16.x]  # As per Zapier platform requirements
 
     steps:
     - uses: actions/checkout@v3
+    
     - name: Use Node.js ${{ matrix.node-version }}
       uses: actions/setup-node@v3
       with:
         node-version: ${{ matrix.node-version }}
         cache: 'npm'
+    
     - name: Install dependencies
       run: npm install
+    
+    - name: Install Zapier CLI
+      run: npm install -g zapier-platform-cli
+    
     - name: Run tests
-      run: npm test || true  # Making tests optional for now until we fix the test suite 
+      run: npm test
+      env:
+        LABOR_EDGE_API_KEY: ${{ secrets.LABOR_EDGE_API_KEY }}
+        LABOR_EDGE_API_URL: ${{ secrets.LABOR_EDGE_API_URL }}
+    
+    - name: Validate Zapier Integration
+      run: zapier validate
+      if: github.event_name == 'pull_request'
+
+  deploy:
+    needs: test
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+
+    steps:
+    - uses: actions/checkout@v3
+    
+    - name: Use Node.js 16.x
+      uses: actions/setup-node@v3
+      with:
+        node-version: 16.x
+        cache: 'npm'
+    
+    - name: Install dependencies
+      run: npm install
+    
+    - name: Install Zapier CLI
+      run: npm install -g zapier-platform-cli
+    
+    - name: Deploy to Zapier
+      run: |
+        zapier login --deployKey ${{ secrets.ZAPIER_DEPLOY_KEY }}
+        zapier push
+      env:
+        ZAPIER_DEPLOY_KEY: ${{ secrets.ZAPIER_DEPLOY_KEY }} 
